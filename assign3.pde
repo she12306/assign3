@@ -9,7 +9,7 @@ final float TOTAL_HP = 193;
 
 float fighterX,fighterY,treasureX,treasureY;
 float HPWidth,bgSpeed,fighterSpeed;
-float enemyX1,enemyY1,enemyX2,enemyY2,enemyX3,enemyY3,a,b,c,d,e,f;
+float enemyX,enemyY,enemyY1,n1,n2,n3,e;
 
 int gameState,enemyState;
 
@@ -38,13 +38,14 @@ void setup(){
   HPWidth=TOTAL_HP/5;
   fighterX=570;
   fighterY=240;
-  enemyY1=floor(random(30,410));
-  enemyY2=floor(random(30,140));
-  enemyY3=floor(random(120,260));
   treasureX=floor(random(10,550));
   treasureY=floor(random(50,410));
   gameState = GAME_START;
   enemyState = FIRST_ENEMY;
+  e=random(0,430);
+  n1=1980;
+  n2=990;
+  n3=0;
 }
 
 void draw(){
@@ -104,65 +105,53 @@ void draw(){
       bgSpeed%=1280;
       
       /*enemyState*/
-      switch (enemyState){
-      case FIRST_ENEMY:
-      enemyX1+=4;
-      image(enemy,enemyX1,enemyY1);
-        
-      for(float i=0;i<5;i++){
-      a = enemyX1+i*70;
-      image(enemy,a,enemyY1);
+       for(int i=0; i<5;i++){  
+    enemyX=n1-2330+i*70;
+    enemyY=e;
+    image(enemy,enemyX,enemyY);
+  }
+  n1+=4;
+  n1%=2970;
+  if(n1==0||n1==2){
+  e=random(240,425);
+  } 
+  
+  for(int i=0;i<5;i++){
+    enemyX=n2-2330+i*70;
+    enemyY=e-i*60;
+    image(enemy,enemyX,enemyY);
+  }
+  n2+=4;
+  n2%=2970;
+  if(n2==0||n2==2){
+  e=random(120,310);
+  } 
+  
+  for(int i=0;i<5;i++){
+    enemyX=n3-2330+i*70;
+      if(i<=2){
+        enemyY=e-i*60;
+      }else{
+        enemyY=e-2*60+(i-2)*60;
       }
-        
-      if(enemyX1>=640){
-        enemyState = SECOND_ENEMY;
-        enemyX2=0;
-        enemyY2=floor(random(30,140));
+    image(enemy,enemyX,enemyY);
+  }
+ 
+  for(int i=0;i<5;i++){
+    enemyX=n3-2330+i*70;
+      if(i<=2){
+        enemyY1=e+i*60;   
+      }else{
+        enemyY1=e+2*60-(i-2)*60;
       }
-      break;
+    image(enemy,enemyX,enemyY1);
+  }  
+  n3+=4;
+  n3%=2970;
+  if(n3==0||n3==2){
+  e=random(0,425);
+  }
       
-      case SECOND_ENEMY:
-      enemyX2+=4;
-      image(enemy,enemyX2,enemyY2);
-            
-      for(float j=0;j<5;j++){
-      b = enemyX2+j*60;
-      c = enemyY2+j*60;
-      image(enemy,b,c);
-      }
-      
-      if(enemyX2>=640){      
-      enemyState = THIRD_ENEMY;
-      enemyX3=0;
-      enemyY3=floor(random(120,260));
-      }
-      break;
-      
-      case THIRD_ENEMY:
-      enemyX3+=4;
-      image(enemy,enemyX3,enemyY3);
-              
-      for(float k=0;k<3;k++){
-      d = enemyX3+k*60;
-      e = enemyY3-k*60;
-      image(enemy,d,e);
-                  
-      f=enemyY3+k*60;
-      image(enemy,d,f);
-      }
-           
-      image(enemy,enemyX3+180,enemyY3-60);
-      image(enemy,enemyX3+180,enemyY3+60);
-      image(enemy,enemyX3+240,enemyY3);   
-     
-      if(enemyX3>=640){
-      enemyState = FIRST_ENEMY;
-      enemyX1=0;
-      enemyY1=floor(random(30,410));
-      }  
-      break;
-      }
-
       if(treasureX+40>fighterX && treasureX<fighterX+50){
         if(treasureY+40>fighterY && treasureY<fighterY+50){
             HPWidth+=TOTAL_HP/10;
